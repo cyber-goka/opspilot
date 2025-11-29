@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+## [0.1.2] - 2025-11-29
+
+### Fixed
+- **Critical**: Fixed all remaining CSS errors (19 total) preventing app startup
+  - Replaced `scrollbars: vertical` with `overflow-y: scroll`
+  - Removed unsupported `font-family: monospace`
+  - Removed unsupported `border-radius` property
+  - Fixed `border-style` syntax (changed to `border: double`)
+  - Fixed Input cursor background color (changed from `$text` to `$accent`)
+  - Removed unsupported `box-shadow` property
+  - Fixed `align` property order (changed to `center bottom`)
+
 ## [0.1.1] - 2025-11-29
 
 ### Fixed
@@ -74,6 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sandboxed subprocess execution with timeouts
 - File operation safety checks and automatic backups
 
-[Unreleased]: https://github.com/cyber-goka/opspilot/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/cyber-goka/opspilot/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/cyber-goka/opspilot/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/cyber-goka/opspilot/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/cyber-goka/opspilot/releases/tag/v0.1.0
