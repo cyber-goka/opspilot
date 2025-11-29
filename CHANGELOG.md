@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+## [0.1.1] - 2025-11-29
+
+### Fixed
+- **Critical**: Removed unsupported CSS features from styles.tcss that prevented app startup
+  - Removed @media queries (not supported in Textual CSS)
+  - Removed @keyframes animations
+  - Removed transition properties
+  - Removed pseudo-elements and outline properties
+  - Fixes "Expected selector or end of file" error on startup
+
+### Added
 - Initial project structure
 - Agent core with Think-Act loop
 - Plan and Build mode switching
@@ -62,5 +74,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sandboxed subprocess execution with timeouts
 - File operation safety checks and automatic backups
 
-[Unreleased]: https://github.com/cyber-goka/opspilot/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/cyber-goka/opspilot/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/cyber-goka/opspilot/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/cyber-goka/opspilot/releases/tag/v0.1.0
