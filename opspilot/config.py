@@ -14,7 +14,7 @@ from typing import Optional, Dict, Any, Literal
 class AuthConfig:
     """Simple authentication configuration."""
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         # API Key - User provides their own API key
         self.api_key = kwargs.get("api_key")
 
@@ -30,7 +30,7 @@ class AuthConfig:
 class ModelConfig:
     """Model configuration for different providers."""
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         # Available models for each provider
         # OpenRouter provides access to many models from different providers
         self.models = {
@@ -50,7 +50,7 @@ class ModelConfig:
 class AppConfig:
     """Complete application configuration."""
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         self.auth = kwargs.get("auth", AuthConfig())
         self.models = kwargs.get("models", ModelConfig())
 
@@ -79,7 +79,7 @@ class AppConfig:
 class ConfigManager:
     """Manages OpsPilot configuration loading and validation."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.config_dir = Path.home() / ".opspilot"
         self.config_file = self.config_dir / "config.yaml"
         self._config: Optional[AppConfig] = None
@@ -170,14 +170,14 @@ class ConfigManager:
         config = self.load_config()
         provider = config.auth.provider
 
-        return config.models.models[provider][mode]
+        return config.models.models[provider][mode]  # type: ignore[no-any-return]
 
     def get_api_key(self, provider: str) -> Optional[str]:
         """Get API key for the configured provider."""
         config = self.load_config()
 
         if config.auth.provider == provider:
-            return config.auth.api_key
+            return config.auth.api_key  # type: ignore[no-any-return]
 
         return None
 

@@ -458,7 +458,7 @@ def main(
         console.print("🔧 Verbose mode enabled")
 
 
-def main_cli():
+def main_cli() -> None:
     """Main entry point for CLI."""
     try:
         app()

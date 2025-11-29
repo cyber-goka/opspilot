@@ -5,7 +5,7 @@ Modal screens for settings, model picker, and other dialogs.
 Provides configuration and session management interfaces.
 """
 
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Generator
 from dataclasses import dataclass
 
 # Check if Textual is available
@@ -37,9 +37,9 @@ try:
     from ..agent.memory import memory_manager
 except ImportError:
     # Fallback for development
-    class config_manager:
+    class config_manager:  # type: ignore[no-redef]
         @staticmethod
-        def load_config():
+        def load_config() -> Any:
             class MockConfig:
                 auth = type(
                     "Auth",
@@ -69,16 +69,16 @@ except ImportError:
             return MockConfig()
 
         @staticmethod
-        def save_config(config):
+        def save_config(config: Any) -> None:
             pass
 
         @staticmethod
-        def is_subscription_mode():
+        def is_subscription_mode() -> bool:
             return False
 
-    class memory_manager:
+    class memory_manager:  # type: ignore[no-redef]
         @staticmethod
-        def list_sessions():
+        def list_sessions() -> List[Dict[str, Any]]:
             return [
                 {
                     "id": "1",
@@ -97,11 +97,11 @@ except ImportError:
             ]
 
         @staticmethod
-        def delete_session(session_id):
+        def delete_session(session_id: str) -> None:
             pass
 
         @staticmethod
-        def load_session(session_id):
+        def load_session(session_id: str) -> bool:
             return True
 
 
@@ -170,12 +170,12 @@ if TEXTUAL_AVAILABLE:
             Binding("ctrl+s", "save", "Save"),
         ]
 
-        def __init__(self):
+        def __init__(self) -> None:
             super().__init__()
             self.config = config_manager.load_config()
             self.current_tab = "auth"
 
-        def compose(self):
+        def compose(self) -> Any:
             with Container(classes="settings-container"):
                 yield Label("⚙️  OpsPilot Settings", classes="settings-title")
 
@@ -191,7 +191,7 @@ if TEXTUAL_AVAILABLE:
                     yield Button("Save", variant="success", id="save-button")
                     yield Button("Cancel", variant="error", id="cancel-button")
 
-        def _compose_auth_tab(self):
+        def _compose_auth_tab(self) -> Generator[Any, None, None]:
             """Compose authentication settings tab."""
             content = self.query_one("#settings-content", Container)
             content.remove_children()
@@ -267,7 +267,7 @@ if TEXTUAL_AVAILABLE:
                     classes="settings-input",
                 )
 
-        def _compose_models_tab(self):
+        def _compose_models_tab(self) -> Generator[Any, None, None]:
             """Compose models settings tab."""
             content = self.query_one("#settings-content", Container)
             content.remove_children()
@@ -309,7 +309,7 @@ if TEXTUAL_AVAILABLE:
                     classes="settings-input",
                 )
 
-        def _compose_advanced_tab(self):
+        def _compose_advanced_tab(self) -> Generator[Any, None, None]:
             """Compose advanced settings tab."""
             content = self.query_one("#settings-content", Container)
             content.remove_children()
@@ -345,7 +345,7 @@ if TEXTUAL_AVAILABLE:
                 self.action_save()
             elif event.button.id == "cancel-button":
                 self.dismiss()
-            elif event.button.id.endswith("-tab"):
+            elif event.button.id and event.button.id.endswith("-tab"):
                 self._switch_tab(event.button.id.replace("-tab", ""))
 
         def _switch_tab(self, tab_name: str) -> None:
@@ -356,9 +356,9 @@ if TEXTUAL_AVAILABLE:
             for button in self.query("Button"):
                 if button.id and button.id.endswith("-tab"):
                     if button.id == f"{tab_name}-tab":
-                        button.variant = "primary"
+                        button.variant = "primary"  # type: ignore[attr-defined]
                     else:
-                        button.variant = "default"
+                        button.variant = "default"  # type: ignore[attr-defined]
 
             # Update content
             if tab_name == "auth":
@@ -439,7 +439,7 @@ if TEXTUAL_AVAILABLE:
             Binding("delete", "delete_session", "Delete Session"),
         ]
 
-        def compose(self):
+        def compose(self) -> Any:
             with Container(classes="session-container"):
                 yield Label("📚 Session Manager", classes="session-title")
 
@@ -452,7 +452,7 @@ if TEXTUAL_AVAILABLE:
                     yield Button("Delete Session", variant="error", id="delete-session")
                     yield Button("Close", variant="default", id="close")
 
-        def _compose_session_list(self):
+        def _compose_session_list(self) -> Generator[Any, None, None]:
             """Compose session list."""
             sessions = memory_manager.list_sessions()
 
@@ -463,7 +463,7 @@ if TEXTUAL_AVAILABLE:
                         f"{session['title']} ({session['message_count']} messages) - {date_str}"
                     )
                 )
-                item.session_id = session["id"]
+                item.session_id = session["id"]  # type: ignore[attr-defined]
                 yield item
 
         def on_button_pressed(self, event: Button.Pressed) -> None:
@@ -527,12 +527,12 @@ if TEXTUAL_AVAILABLE:
         }
         """
 
-        def __init__(self, current_mode: str = "plan"):
+        def __init__(self, current_mode: str = "plan") -> None:
             super().__init__()
             self.current_mode = current_mode
-            self.selected_model = None
+            self.selected_model: Optional[str] = None
 
-        def compose(self):
+        def compose(self) -> Any:
             with Container(classes="model-container"):
                 yield Label(
                     f"🤖 Select {self.current_mode.upper()} Model",
@@ -577,31 +577,31 @@ if TEXTUAL_AVAILABLE:
 
 
 # Fallback classes when Textual is not available
-class SettingsScreen:
+class SettingsScreen:  # type: ignore[no-redef]
     """Fallback settings screen."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         print("Settings screen requires Textual to be installed.")
 
-    def __call__(self):
+    def __call__(self) -> "SettingsScreen":
         return self
 
 
-class SessionManagerScreen:
+class SessionManagerScreen:  # type: ignore[no-redef]
     """Fallback session manager screen."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         print("Session manager requires Textual to be installed.")
 
-    def __call__(self):
+    def __call__(self) -> "SessionManagerScreen":
         return self
 
 
-class ModelPickerScreen:
+class ModelPickerScreen:  # type: ignore[no-redef]
     """Fallback model picker screen."""
 
-    def __init__(self, current_mode="plan"):
+    def __init__(self, current_mode: str = "plan") -> None:
         print("Model picker requires Textual to be installed.")
 
-    def __call__(self):
+    def __call__(self) -> "ModelPickerScreen":
         return self

@@ -92,7 +92,7 @@ class SystemTool:
             if isinstance(command, str):
                 args = shlex.split(command)
             else:
-                args = [str(arg) for arg in command]
+                args = [str(arg) for arg in command]  # type: ignore[unreachable]
 
             # Set working directory
             cwd = Path(working_directory) if working_directory else Path.cwd()
@@ -253,7 +253,11 @@ class SystemTool:
     def get_process_list(self) -> List[Dict[str, Any]]:
         """Get list of running processes."""
         return [
-            {"id": pid, "command": " ".join(process.args), "pid": process.pid}
+            {
+                "id": pid,
+                "command": " ".join(process.args),  # type: ignore[arg-type]
+                "pid": process.pid,
+            }
             for pid, process in self.running_processes.items()
         ]
 

@@ -111,14 +111,14 @@ class FileTool:
 
             # Read text file
             with open(full_path, "r", encoding=encoding, errors="replace") as f:
-                lines = f.readlines()
+                lines: list[str] = f.readlines()
 
             # Apply offset and limit
             if offset > 0 or limit is not None:
                 end = (offset + limit) if limit else None
                 lines = lines[offset:end]
 
-            content = "".join(lines)
+            content = "".join(lines)  # type: ignore[assignment]
 
             return {
                 "success": True,

@@ -15,29 +15,29 @@ try:
 except ImportError:
     # Fallback for development
     class MockMessage:
-        def __init__(self):
+        def __init__(self) -> None:
             self.content = "Mock response - litellm not installed"
             self.tool_calls = None
 
     class MockChoice:
         @property
-        def message(self):
+        def message(self) -> MockMessage:
             return MockMessage()
 
     class MockResponse:
         @property
-        def choices(self):
+        def choices(self) -> List[MockChoice]:
             return [MockChoice()]
 
-    async def acompletion(*args, **kwargs):
+    async def acompletion(*args: Any, **kwargs: Any) -> MockResponse:
         return MockResponse()
 
-    def sync_completion(*args, **kwargs):
+    def sync_completion(*args: Any, **kwargs: Any) -> MockResponse:
         return MockResponse()
 
-    def completion(*args, **kwargs):
+    def completion(*args: Any, **kwargs: Any) -> Any:
         class MockResponse:
-            def choice(self):
+            def choice(self) -> Dict[str, Any]:
                 return {"message": {"content": "Mock response - litellm not installed"}}
 
         return MockResponse()
@@ -77,7 +77,7 @@ class Message:
 class AgentCore:
     """Core agent logic implementing Think-Act loop."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.config = config_manager.load_config()
         self.mode = AgentMode.PLAN
         self.tools: Dict[str, Tool] = {}
@@ -95,7 +95,7 @@ class AgentCore:
         # These will be populated when tools are imported
         pass
 
-    def _track_usage(self, response) -> None:
+    def _track_usage(self, response: Any) -> None:
         """Track usage statistics from litellm response."""
         try:
             # Extract usage information
@@ -156,7 +156,7 @@ class AgentCore:
 
         return prompt_cost + completion_cost
 
-    def register_tool(self, tool) -> None:
+    def register_tool(self, tool: Any) -> None:
         """Register a new tool with the agent."""
         if isinstance(tool, dict):
             tool_obj = Tool(**tool)
