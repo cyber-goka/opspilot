@@ -64,7 +64,6 @@ async def test_dangerous_command_detection(system_tool):
 @pytest.mark.asyncio
 async def test_dangerous_command_allowed(system_tool):
     """Test that dangerous commands can be allowed."""
-    import os
     import tempfile
 
     async def mock_confirmation(command, keyword):
@@ -77,8 +76,9 @@ async def test_dangerous_command_allowed(system_tool):
         test_file = f.name
 
     # Use Python to delete file (cross-platform)
+    # Use repr() to properly escape the path for Windows
     result = await system_tool.execute_command(
-        f"python -c \"import os; os.remove('{test_file}')\""
+        f"python -c \"import os; os.remove({repr(test_file)})\""
     )
 
     # Should succeed since we allowed it
