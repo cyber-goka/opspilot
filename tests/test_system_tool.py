@@ -78,7 +78,7 @@ async def test_dangerous_command_allowed(system_tool):
 
     # Use Python to delete file (cross-platform)
     result = await system_tool.execute_command(
-        f'python -c "import os; os.remove(\'{test_file}\')"'
+        f"python -c \"import os; os.remove('{test_file}')\""
     )
 
     # Should succeed since we allowed it
