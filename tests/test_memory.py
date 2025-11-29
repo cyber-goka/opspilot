@@ -5,7 +5,6 @@ Tests for OpsPilot Memory Management
 import pytest
 import tempfile
 import shutil
-from pathlib import Path
 from opspilot.agent.memory import MemoryManager, ChatMessage
 
 
@@ -135,6 +134,8 @@ def test_delete_session():
 
 def test_list_sessions():
     """Test listing all sessions."""
+    import time
+
     # Create fresh memory manager with isolated storage
     tmpdir = tempfile.mkdtemp()
     try:
@@ -143,6 +144,9 @@ def test_list_sessions():
         # Create multiple sessions
         manager.create_session("Session 1")
         manager.add_message("user", "Message in session 1")
+
+        # Small delay to ensure different timestamps on Windows
+        time.sleep(0.01)
 
         manager.create_session("Session 2")
         manager.add_message("user", "Message in session 2")

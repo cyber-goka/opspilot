@@ -64,6 +64,8 @@ async def test_dangerous_command_detection(system_tool):
 @pytest.mark.asyncio
 async def test_dangerous_command_allowed(system_tool):
     """Test that dangerous commands can be allowed."""
+    import os
+    import tempfile
 
     async def mock_confirmation(command, keyword):
         return True  # Allow the command
@@ -71,12 +73,13 @@ async def test_dangerous_command_allowed(system_tool):
     system_tool.confirmation_callback = mock_confirmation
 
     # Create a test file to remove
-    import tempfile
-
     with tempfile.NamedTemporaryFile(delete=False) as f:
         test_file = f.name
 
-    result = await system_tool.execute_command(f"rm {test_file}")
+    # Use Python to delete file (cross-platform)
+    result = await system_tool.execute_command(
+        f'python -c "import os; os.remove(\'{test_file}\')"'
+    )
 
     # Should succeed since we allowed it
     assert result["success"] is True
@@ -85,13 +88,18 @@ async def test_dangerous_command_allowed(system_tool):
 @pytest.mark.asyncio
 async def test_working_directory(system_tool):
     """Test executing command in specific directory."""
+    import os
     import tempfile
 
     with tempfile.TemporaryDirectory() as tmpdir:
-        result = await system_tool.execute_command("pwd", working_directory=tmpdir)
+        # Use Python to get current directory (cross-platform)
+        result = await system_tool.execute_command(
+            'python -c "import os; print(os.getcwd())"', working_directory=tmpdir
+        )
 
         assert result["success"] is True
-        assert tmpdir in result["stdout"]
+        # Normalize paths for comparison (handles Windows backslash vs forward slash)
+        assert os.path.normpath(tmpdir) in os.path.normpath(result["stdout"])
 
 
 @pytest.mark.asyncio
