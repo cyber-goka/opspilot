@@ -26,8 +26,7 @@ def memory_manager():
     """Create a MemoryManager instance with isolated temporary storage."""
     # Create a unique temp directory for each test
     tmpdir = tempfile.mkdtemp()
-    manager = MemoryManager()
-    manager.sessions_dir = Path(tmpdir)
+    manager = MemoryManager(storage_dir=tmpdir)
     yield manager
     # Clean up after test
     try:
@@ -112,8 +111,7 @@ def test_delete_session():
     # Create fresh memory manager with isolated storage
     tmpdir = tempfile.mkdtemp()
     try:
-        manager = MemoryManager()
-        manager.sessions_dir = Path(tmpdir)
+        manager = MemoryManager(storage_dir=tmpdir)
 
         session_id = manager.create_session("To Delete")
 
@@ -140,8 +138,7 @@ def test_list_sessions():
     # Create fresh memory manager with isolated storage
     tmpdir = tempfile.mkdtemp()
     try:
-        manager = MemoryManager()
-        manager.sessions_dir = Path(tmpdir)
+        manager = MemoryManager(storage_dir=tmpdir)
 
         # Create multiple sessions
         manager.create_session("Session 1")
@@ -208,8 +205,7 @@ def test_get_session_stats_no_session():
     # Create fresh memory manager with isolated storage
     tmpdir = tempfile.mkdtemp()
     try:
-        manager = MemoryManager()
-        manager.sessions_dir = Path(tmpdir)
+        manager = MemoryManager(storage_dir=tmpdir)
 
         stats = manager.get_session_stats()
 
@@ -225,8 +221,7 @@ def test_get_session_stats_with_session():
     # Create fresh memory manager with isolated storage
     tmpdir = tempfile.mkdtemp()
     try:
-        manager = MemoryManager()
-        manager.sessions_dir = Path(tmpdir)
+        manager = MemoryManager(storage_dir=tmpdir)
 
         manager.create_session("Stats Test")
         manager.add_message("user", "Message 1")
