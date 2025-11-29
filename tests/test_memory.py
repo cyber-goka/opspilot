@@ -107,56 +107,62 @@ def test_load_nonexistent_session(memory_manager):
     assert success is False
 
 
-def test_delete_session(temp_storage):
+def test_delete_session():
     """Test deleting a session."""
-    # Create fresh memory manager for this test
-    manager = MemoryManager()
-    manager.sessions_dir = Path(temp_storage) / "delete_test"
-    manager.sessions_dir.mkdir(exist_ok=True)
+    # Create fresh memory manager with isolated storage
+    tmpdir = tempfile.mkdtemp()
+    try:
+        manager = MemoryManager()
+        manager.sessions_dir = Path(tmpdir)
 
-    session_id = manager.create_session("To Delete")
+        session_id = manager.create_session("To Delete")
 
-    # Verify it exists
-    sessions = manager.list_sessions()
-    assert len(sessions) == 1
+        # Verify it exists
+        sessions = manager.list_sessions()
+        assert len(sessions) == 1
 
-    # Delete it
-    success = manager.delete_session(session_id)
-    assert success is True
+        # Delete it
+        success = manager.delete_session(session_id)
+        assert success is True
 
-    # Verify it's gone
-    sessions = manager.list_sessions()
-    assert len(sessions) == 0
+        # Verify it's gone
+        sessions = manager.list_sessions()
+        assert len(sessions) == 0
 
-    # Current session should be cleared
-    assert manager.current_session is None
+        # Current session should be cleared
+        assert manager.current_session is None
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
 
 
-def test_list_sessions(temp_storage):
+def test_list_sessions():
     """Test listing all sessions."""
-    # Create fresh memory manager for this test
-    manager = MemoryManager()
-    manager.sessions_dir = Path(temp_storage) / "list_test"
-    manager.sessions_dir.mkdir(exist_ok=True)
+    # Create fresh memory manager with isolated storage
+    tmpdir = tempfile.mkdtemp()
+    try:
+        manager = MemoryManager()
+        manager.sessions_dir = Path(tmpdir)
 
-    # Create multiple sessions
-    manager.create_session("Session 1")
-    manager.add_message("user", "Message in session 1")
+        # Create multiple sessions
+        manager.create_session("Session 1")
+        manager.add_message("user", "Message in session 1")
 
-    manager.create_session("Session 2")
-    manager.add_message("user", "Message in session 2")
+        manager.create_session("Session 2")
+        manager.add_message("user", "Message in session 2")
 
-    sessions = manager.list_sessions()
-    assert len(sessions) == 2
+        sessions = manager.list_sessions()
+        assert len(sessions) == 2
 
-    # Sessions should be sorted by updated_at (most recent first)
-    assert sessions[0]["title"] == "Session 2"
-    assert sessions[1]["title"] == "Session 1"
+        # Sessions should be sorted by updated_at (most recent first)
+        assert sessions[0]["title"] == "Session 2"
+        assert sessions[1]["title"] == "Session 1"
 
-    # Check metadata
-    assert sessions[0]["message_count"] == 1
-    assert "created_at" in sessions[0]
-    assert "updated_at" in sessions[0]
+        # Check metadata
+        assert sessions[0]["message_count"] == 1
+        assert "created_at" in sessions[0]
+        assert "updated_at" in sessions[0]
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
 
 
 def test_export_session_json(memory_manager):
@@ -197,38 +203,44 @@ def test_export_session_txt(memory_manager):
     assert "Hello" in exported
 
 
-def test_get_session_stats_no_session(temp_storage):
+def test_get_session_stats_no_session():
     """Test getting stats when no session is active."""
-    # Create fresh memory manager for this test
-    manager = MemoryManager()
-    manager.sessions_dir = Path(temp_storage) / "stats_test_empty"
-    manager.sessions_dir.mkdir(exist_ok=True)
+    # Create fresh memory manager with isolated storage
+    tmpdir = tempfile.mkdtemp()
+    try:
+        manager = MemoryManager()
+        manager.sessions_dir = Path(tmpdir)
 
-    stats = manager.get_session_stats()
+        stats = manager.get_session_stats()
 
-    assert stats["total_sessions"] == 0
-    assert stats["total_messages"] == 0
-    assert stats["current_session_id"] is None
+        assert stats["total_sessions"] == 0
+        assert stats["total_messages"] == 0
+        assert stats["current_session_id"] is None
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
 
 
-def test_get_session_stats_with_session(temp_storage):
+def test_get_session_stats_with_session():
     """Test getting stats for an active session."""
-    # Create fresh memory manager for this test
-    manager = MemoryManager()
-    manager.sessions_dir = Path(temp_storage) / "stats_test_with"
-    manager.sessions_dir.mkdir(exist_ok=True)
+    # Create fresh memory manager with isolated storage
+    tmpdir = tempfile.mkdtemp()
+    try:
+        manager = MemoryManager()
+        manager.sessions_dir = Path(tmpdir)
 
-    manager.create_session("Stats Test")
-    manager.add_message("user", "Message 1")
-    manager.add_message("assistant", "Message 2")
-    manager.add_message("user", "Message 3")
+        manager.create_session("Stats Test")
+        manager.add_message("user", "Message 1")
+        manager.add_message("assistant", "Message 2")
+        manager.add_message("user", "Message 3")
 
-    stats = manager.get_session_stats()
+        stats = manager.get_session_stats()
 
-    assert stats["total_sessions"] == 1
-    assert stats["total_messages"] == 3
-    assert stats["current_session_id"] is not None
-    assert "storage_dir" in stats
+        assert stats["total_sessions"] == 1
+        assert stats["total_messages"] == 3
+        assert stats["current_session_id"] is not None
+        assert "storage_dir" in stats
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
 
 
 def test_message_to_dict():
