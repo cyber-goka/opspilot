@@ -8,7 +8,7 @@ and session state for the agent.
 import json
 import time
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, asdict
 from datetime import datetime
 import uuid

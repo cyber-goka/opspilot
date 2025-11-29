@@ -10,7 +10,6 @@ import subprocess
 import shlex
 from typing import Dict, Any, Optional, List, Callable, Awaitable
 from pathlib import Path
-import signal
 import os
 
 

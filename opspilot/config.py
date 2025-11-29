@@ -8,7 +8,7 @@ Supports multiple AI providers through litellm integration.
 import os
 import yaml
 from pathlib import Path
-from typing import Optional, Dict, Any, Union, Literal
+from typing import Optional, Dict, Any, Literal
 
 
 class AuthConfig:

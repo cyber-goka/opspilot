@@ -86,7 +86,6 @@ async def test_dangerous_command_allowed(system_tool):
 async def test_working_directory(system_tool):
     """Test executing command in specific directory."""
     import tempfile
-    import os
 
     with tempfile.TemporaryDirectory() as tmpdir:
         result = await system_tool.execute_command("pwd", working_directory=tmpdir)

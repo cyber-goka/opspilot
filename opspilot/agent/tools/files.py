@@ -5,13 +5,10 @@ File reading, writing, and directory operations for the agent.
 Provides secure file access with proper error handling.
 """
 
-import os
 import shutil
 from pathlib import Path
 from typing import Dict, Any, Optional, List, Union
 import mimetypes
-import json
-import yaml
 
 
 class FileTool:

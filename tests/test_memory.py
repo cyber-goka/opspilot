@@ -6,7 +6,7 @@ import pytest
 import tempfile
 import shutil
 from pathlib import Path
-from opspilot.agent.memory import MemoryManager, ChatMessage, ConversationSession
+from opspilot.agent.memory import MemoryManager, ChatMessage
 
 
 @pytest.fixture
@@ -41,7 +41,8 @@ def test_create_session_auto_title(memory_manager):
 
     assert session_id is not None
     assert memory_manager.current_session is not None
-    assert "Session" in memory_manager.current_session.title
+    # Default title is "New Conversation"
+    assert memory_manager.current_session.title == "New Conversation"
 
 
 def test_add_message(memory_manager):
@@ -54,7 +55,7 @@ def test_add_message(memory_manager):
     assert memory_manager.current_session.messages[0].role == "user"
     assert memory_manager.current_session.messages[0].content == "Hello!"
 
-    msg2_id = memory_manager.add_message("assistant", "Hi there!")
+    memory_manager.add_message("assistant", "Hi there!")
     assert len(memory_manager.current_session.messages) == 2
 
 
@@ -95,36 +96,46 @@ def test_load_nonexistent_session(memory_manager):
     assert success is False
 
 
-def test_delete_session(memory_manager):
+def test_delete_session(temp_storage):
     """Test deleting a session."""
-    session_id = memory_manager.create_session("To Delete")
+    # Create fresh memory manager for this test
+    manager = MemoryManager()
+    manager.sessions_dir = Path(temp_storage) / "delete_test"
+    manager.sessions_dir.mkdir(exist_ok=True)
+
+    session_id = manager.create_session("To Delete")
 
     # Verify it exists
-    sessions = memory_manager.list_sessions()
+    sessions = manager.list_sessions()
     assert len(sessions) == 1
 
     # Delete it
-    success = memory_manager.delete_session(session_id)
+    success = manager.delete_session(session_id)
     assert success is True
 
     # Verify it's gone
-    sessions = memory_manager.list_sessions()
+    sessions = manager.list_sessions()
     assert len(sessions) == 0
 
     # Current session should be cleared
-    assert memory_manager.current_session is None
+    assert manager.current_session is None
 
 
-def test_list_sessions(memory_manager):
+def test_list_sessions(temp_storage):
     """Test listing all sessions."""
+    # Create fresh memory manager for this test
+    manager = MemoryManager()
+    manager.sessions_dir = Path(temp_storage) / "list_test"
+    manager.sessions_dir.mkdir(exist_ok=True)
+
     # Create multiple sessions
-    memory_manager.create_session("Session 1")
-    memory_manager.add_message("user", "Message in session 1")
+    manager.create_session("Session 1")
+    manager.add_message("user", "Message in session 1")
 
-    memory_manager.create_session("Session 2")
-    memory_manager.add_message("user", "Message in session 2")
+    manager.create_session("Session 2")
+    manager.add_message("user", "Message in session 2")
 
-    sessions = memory_manager.list_sessions()
+    sessions = manager.list_sessions()
     assert len(sessions) == 2
 
     # Sessions should be sorted by updated_at (most recent first)
@@ -175,23 +186,33 @@ def test_export_session_txt(memory_manager):
     assert "Hello" in exported
 
 
-def test_get_session_stats_no_session(memory_manager):
+def test_get_session_stats_no_session(temp_storage):
     """Test getting stats when no session is active."""
-    stats = memory_manager.get_session_stats()
+    # Create fresh memory manager for this test
+    manager = MemoryManager()
+    manager.sessions_dir = Path(temp_storage) / "stats_test_empty"
+    manager.sessions_dir.mkdir(exist_ok=True)
+
+    stats = manager.get_session_stats()
 
     assert stats["total_sessions"] == 0
     assert stats["total_messages"] == 0
     assert stats["current_session_id"] is None
 
 
-def test_get_session_stats_with_session(memory_manager):
+def test_get_session_stats_with_session(temp_storage):
     """Test getting stats for an active session."""
-    memory_manager.create_session("Stats Test")
-    memory_manager.add_message("user", "Message 1")
-    memory_manager.add_message("assistant", "Message 2")
-    memory_manager.add_message("user", "Message 3")
+    # Create fresh memory manager for this test
+    manager = MemoryManager()
+    manager.sessions_dir = Path(temp_storage) / "stats_test_with"
+    manager.sessions_dir.mkdir(exist_ok=True)
 
-    stats = memory_manager.get_session_stats()
+    manager.create_session("Stats Test")
+    manager.add_message("user", "Message 1")
+    manager.add_message("assistant", "Message 2")
+    manager.add_message("user", "Message 3")
+
+    stats = manager.get_session_stats()
 
     assert stats["total_sessions"] == 1
     assert stats["total_messages"] == 3

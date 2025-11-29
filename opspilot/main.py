@@ -5,7 +5,6 @@ CLI application entry point using Typer.
 Provides command-line interface for OpsPilot DevOps assistant.
 """
 
-import asyncio
 import sys
 from typing import Optional
 from pathlib import Path
@@ -173,17 +172,19 @@ def config(
             )
 
             # Models
-            config_text.append(f"\n🤖 Models:")
+            config_text.append("\n🤖 Models:")
             provider = config_data.auth.provider
             config_text.append(
-                f"  Plan Model ({provider}): {config_manager.get_model_for_mode('plan')}"
+                f"  Plan Model ({provider}): "
+                f"{config_manager.get_model_for_mode('plan')}"
             )
             config_text.append(
-                f"  Build Model ({provider}): {config_manager.get_model_for_mode('build')}"
+                f"  Build Model ({provider}): "
+                f"{config_manager.get_model_for_mode('build')}"
             )
 
             # Settings
-            config_text.append(f"\n⚙️  Settings:")
+            config_text.append("\n⚙️  Settings:")
             config_text.append(f"  Max Tokens: {config_data.max_tokens}")
             config_text.append(f"  Temperature: {config_data.temperature}")
             config_text.append(f"  Timeout: {config_data.timeout}s")

@@ -551,7 +551,6 @@ if TEXTUAL_AVAILABLE:
         def _get_available_models(self) -> List[str]:
             """Get available models based on configuration."""
             config = config_manager.load_config()
-            provider = config.models.default_provider
 
             if self.current_mode == "plan":
                 return [
