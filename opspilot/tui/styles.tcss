@@ -36,7 +36,7 @@ Horizontal {
     border: solid $panel;
     background: $panel;
     padding: 1;
-    scrollbars: vertical;
+    overflow-y: scroll;
 }
 
 #input-container {
@@ -70,8 +70,7 @@ Horizontal {
     background: $panel;
     border: solid $panel;
     padding: 1;
-    scrollbars: vertical;
-    font-family: monospace;
+    overflow-y: scroll;
 }
 
 #progress-bar {
@@ -96,7 +95,6 @@ Horizontal {
     color: $text;
     margin: 1 0;
     padding: 1;
-    border-radius: 4px;
     text-style: bold;
 }
 
@@ -105,7 +103,6 @@ Horizontal {
     color: $text;
     margin: 1 0;
     padding: 1;
-    border-radius: 4px;
 }
 
 .tool-message {
@@ -113,8 +110,6 @@ Horizontal {
     color: $text;
     margin: 1 0;
     padding: 1;
-    border-radius: 4px;
-    font-family: monospace;
 }
 
 .system-message {
@@ -122,7 +117,6 @@ Horizontal {
     color: $text;
     margin: 1 0;
     padding: 1;
-    border-radius: 4px;
     text-style: italic;
 }
 
@@ -171,8 +165,7 @@ Button.-active {
 }
 
 Button.-focus {
-    border: solid $accent;
-    border-style: double;
+    border: double $accent;
 }
 
 Button.variant-success {
@@ -219,12 +212,11 @@ Input {
 }
 
 Input:focus {
-    border: solid $accent;
-    border-style: double;
+    border: double $accent;
 }
 
 Input.-cursor {
-    background: $text;
+    background: $accent;
     color: $panel;
     text-style: reverse;
 }
@@ -241,8 +233,7 @@ Select:hover {
 }
 
 Select.-focus {
-    border: solid $accent;
-    border-style: double;
+    border: double $accent;
 }
 
 Select > .select-current {
@@ -263,7 +254,6 @@ Container {
 Container.dialog {
     background: $surface;
     border: thick $primary;
-    box-shadow: 0 0 10px $primary;
 }
 
 /* Label Styles */
@@ -299,7 +289,7 @@ Static.dialog-content {
 ScrollView {
     background: $panel;
     border: solid $panel;
-    scrollbars: vertical;
+    overflow-y: scroll;
 }
 
 ScrollView > .scrollbar-corner {
@@ -338,7 +328,7 @@ ProgressBar > .bar-indeterminate {
 ListView {
     background: $panel;
     border: solid $primary;
-    scrollbars: vertical;
+    overflow-y: scroll;
 }
 
 ListView > .list-view--highlighted {
@@ -402,7 +392,7 @@ ModalScreen {
 
 .settings-buttons {
     height: 3;
-    align: bottom middle;
+    align: center bottom;
 }
 
 /* Session Manager Screen Specific */
@@ -428,7 +418,7 @@ ModalScreen {
 
 .session-buttons {
     height: 3;
-    align: bottom middle;
+    align: center bottom;
 }
 
 /* Model Picker Screen Specific */
@@ -453,7 +443,7 @@ ModalScreen {
 
 .model-buttons {
     height: 3;
-    align: bottom middle;
+    align: center bottom;
 }
 
 /* Confirmation Dialog Specific */
@@ -478,7 +468,7 @@ ModalScreen {
 .dialog-buttons {
     width: 100%;
     height: 3;
-    align: bottom middle;
+    align: center bottom;
 }
 
 .dialog-buttons Button {
