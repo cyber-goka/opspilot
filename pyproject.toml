@@ -51,10 +51,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-org/opspilot"
-Documentation = "https://docs.opspilot.com"
-Repository = "https://github.com/your-org/opspilot.git"
-"Bug Tracker" = "https://github.com/your-org/opspilot/issues"
+Homepage = "https://github.com/cyber-goka/opspilot"
+Documentation = "https://github.com/cyber-goka/opspilot"
+Repository = "https://github.com/cyber-goka/opspilot.git"
+"Bug Tracker" = "https://github.com/cyber-goka/opspilot/issues"
 
 [project.scripts]
 opspilot = "opspilot.main:main_cli"

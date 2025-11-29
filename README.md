@@ -1,7 +1,7 @@
 # OpsPilot - AI-powered DevOps Assistant
 
-[![Tests](https://github.com/your-org/opspilot/workflows/Tests/badge.svg)](https://github.com/your-org/opspilot/actions)
-[![Lint](https://github.com/your-org/opspilot/workflows/Lint/badge.svg)](https://github.com/your-org/opspilot/actions)
+[![Tests](https://github.com/cyber-goka/opspilot/workflows/Tests/badge.svg)](https://github.com/cyber-goka/opspilot/actions)
+[![Lint](https://github.com/cyber-goka/opspilot/workflows/Lint/badge.svg)](https://github.com/cyber-goka/opspilot/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -42,7 +42,7 @@ OpsPilot is a sophisticated CLI tool for DevOps operations with AI assistance, s
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/opspilot.git
+git clone https://github.com/cyber-goka/opspilot.git
 cd opspilot
 
 # Install OpsPilot
@@ -223,7 +223,7 @@ opspilot/
 ### Setup Development Environment
 ```bash
 # Clone repository
-git clone https://github.com/your-org/opspilot.git
+git clone https://github.com/cyber-goka/opspilot.git
 cd opspilot
 
 # Create virtual environment
@@ -280,9 +280,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Support
 
-- 📖 [Documentation](https://docs.opspilot.com)
-- 🐛 [Issue Tracker](https://github.com/your-org/opspilot/issues)
-- 💬 [Discussions](https://github.com/your-org/opspilot/discussions)
+- 📖 [Documentation](https://github.com/cyber-goka/opspilot)
+- 🐛 [Issue Tracker](https://github.com/cyber-goka/opspilot/issues)
+- 💬 [Discussions](https://github.com/cyber-goka/opspilot/discussions)
 
 ---
 

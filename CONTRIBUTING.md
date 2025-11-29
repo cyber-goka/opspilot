@@ -250,9 +250,9 @@ Releases are automated via GitHub Actions:
 
 ## Getting Help
 
-- **Questions**: Open a [Discussion](https://github.com/your-org/opspilot/discussions)
-- **Bugs**: Open an [Issue](https://github.com/your-org/opspilot/issues)
-- **Features**: Open an [Issue](https://github.com/your-org/opspilot/issues) with feature request
+- **Questions**: Open a [Discussion](https://github.com/cyber-goka/opspilot/discussions)
+- **Bugs**: Open an [Issue](https://github.com/cyber-goka/opspilot/issues)
+- **Features**: Open an [Issue](https://github.com/cyber-goka/opspilot/issues) with feature request
 
 ## Recognition
 
