@@ -64,25 +64,19 @@ async def test_dangerous_command_detection(system_tool):
 @pytest.mark.asyncio
 async def test_dangerous_command_allowed(system_tool):
     """Test that dangerous commands can be allowed."""
-    import tempfile
 
     async def mock_confirmation(command, keyword):
         return True  # Allow the command
 
     system_tool.confirmation_callback = mock_confirmation
 
-    # Create a test file to remove
-    with tempfile.NamedTemporaryFile(delete=False) as f:
-        test_file = f.name
-
-    # Use Python to delete file (cross-platform)
-    # Use repr() to properly escape the path for Windows
-    result = await system_tool.execute_command(
-        f'python -c "import os; os.remove({repr(test_file)})"'
-    )
+    # Use 'echo' with 'rm' to trigger dangerous keyword detection
+    # This is safe but contains 'rm' which is a dangerous keyword
+    result = await system_tool.execute_command('echo "testing rm command"')
 
     # Should succeed since we allowed it
     assert result["success"] is True
+    assert "testing rm command" in result["stdout"]
 
 
 @pytest.mark.asyncio
