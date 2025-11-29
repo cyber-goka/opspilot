@@ -14,15 +14,26 @@ def temp_storage():
     """Create a temporary storage directory for testing."""
     tmpdir = tempfile.mkdtemp()
     yield tmpdir
-    shutil.rmtree(tmpdir)
+    # Clean up after test
+    try:
+        shutil.rmtree(tmpdir)
+    except Exception:
+        pass
 
 
 @pytest.fixture
-def memory_manager(temp_storage):
-    """Create a MemoryManager instance with temporary storage."""
+def memory_manager():
+    """Create a MemoryManager instance with isolated temporary storage."""
+    # Create a unique temp directory for each test
+    tmpdir = tempfile.mkdtemp()
     manager = MemoryManager()
-    manager.sessions_dir = Path(temp_storage)
-    return manager
+    manager.sessions_dir = Path(tmpdir)
+    yield manager
+    # Clean up after test
+    try:
+        shutil.rmtree(tmpdir)
+    except Exception:
+        pass
 
 
 def test_create_session(memory_manager):
