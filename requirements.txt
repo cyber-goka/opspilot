@@ -1,0 +1,33 @@
+# OpsPilot Dependencies
+
+# Core Framework
+typer>=0.9.0
+rich>=13.0.0
+
+# TUI Framework
+textual>=0.41.0
+
+# AI/LLM Integration
+litellm>=1.17.0
+
+# Data Validation and Configuration
+pydantic>=2.0.0
+pyyaml>=6.0
+
+# Async Support
+aiofiles>=23.0.0
+
+# System Integration
+psutil>=5.9.0
+
+# Development Dependencies (optional)
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+mypy>=1.0.0
+flake8>=6.0.0
+
+# Optional: Enhanced terminal features
+# colorama>=0.4.6  # For Windows terminal support
+# click>=8.0.0     # Alternative CLI framework
+# prompt-toolkit>=3.0.0  # Enhanced input handling

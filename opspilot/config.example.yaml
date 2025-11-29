@@ -1,0 +1,30 @@
+# OpsPilot Configuration Example
+# Copy this to ~/.opspilot/config.yaml and customize
+
+# Authentication settings
+auth:
+  # Choose your AI provider: openai, zhipu, anthropic, or openrouter
+  # OpenRouter gives access to 100+ models from various providers
+  provider: zhipu
+
+  # Your API key for the selected provider
+  # For OpenRouter, get your key from: https://openrouter.ai/keys
+  api_key: your-api-key-here
+
+# Model configurations (automatically managed)
+models:
+  models:
+    openai:
+      plan: gpt-4
+      build: gpt-3.5-turbo
+    zhipu:
+      plan: glm-4-plus
+      build: glm-4-flash
+    anthropic:
+      plan: claude-3-sonnet-20240229
+      build: claude-3-haiku-20240307
+
+# Application settings
+max_tokens: 4000
+temperature: 0.7
+timeout: 30
