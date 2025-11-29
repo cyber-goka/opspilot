@@ -8,7 +8,7 @@
 
 OpsPilot is a sophisticated CLI tool for DevOps operations with AI assistance, similar to OpenCode or Claude Code but specialized for DevOps tasks.
 
-> **Note**: This project is in active development. The full TUI interface is planned but currently uses a simple CLI interface.
+> **Note**: This project now features a full Textual TUI with split-screen interface! The simple CLI fallback is available if Textual is not installed.
 
 ## Features
 
