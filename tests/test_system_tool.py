@@ -64,6 +64,7 @@ async def test_dangerous_command_detection(system_tool):
 @pytest.mark.asyncio
 async def test_dangerous_command_allowed(system_tool):
     """Test that dangerous commands can be allowed."""
+
     async def mock_confirmation(command, keyword):
         return True  # Allow the command
 
@@ -71,6 +72,7 @@ async def test_dangerous_command_allowed(system_tool):
 
     # Create a test file to remove
     import tempfile
+
     with tempfile.NamedTemporaryFile(delete=False) as f:
         test_file = f.name
 

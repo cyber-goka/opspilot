@@ -116,9 +116,9 @@ class MemoryManager:
             metadata={
                 "mode": "plan",
                 "model": config_manager.get_model_for_mode("plan"),
-                "auth_mode": "subscription"
-                if config_manager.is_subscription_mode()
-                else "byok",
+                "auth_mode": (
+                    "subscription" if config_manager.is_subscription_mode() else "byok"
+                ),
             },
         )
 
@@ -443,9 +443,9 @@ class MemoryManager:
             "total_sessions": len(sessions),
             "total_messages": total_messages,
             "total_size_bytes": total_size,
-            "current_session_id": self.current_session.id
-            if self.current_session
-            else None,
+            "current_session_id": (
+                self.current_session.id if self.current_session else None
+            ),
             "storage_dir": str(self.storage_dir),
         }
 

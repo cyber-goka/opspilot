@@ -196,9 +196,11 @@ class FileTool:
                 "success": True,
                 "file_path": file_path,
                 "encoding": encoding_used,
-                "bytes_written": len(content)
-                if isinstance(content, bytes)
-                else len(content.encode(encoding)),
+                "bytes_written": (
+                    len(content)
+                    if isinstance(content, bytes)
+                    else len(content.encode(encoding))
+                ),
                 "backup_path": str(backup_path) if backup_path else None,
             }
 

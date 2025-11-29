@@ -352,9 +352,9 @@ Safety reminders:
             "message_count": len(self.messages),
             "available_tools": len(self.get_available_tools()),
             "current_model": config_manager.get_model_for_mode(self.mode.value),
-            "auth_mode": "subscription"
-            if config_manager.is_subscription_mode()
-            else "byok",
+            "auth_mode": (
+                "subscription" if config_manager.is_subscription_mode() else "byok"
+            ),
             "usage_stats": self.usage_stats,
         }
 

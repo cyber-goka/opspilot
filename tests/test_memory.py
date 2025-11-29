@@ -6,7 +6,7 @@ import pytest
 import tempfile
 import shutil
 from pathlib import Path
-from opspilot.agent.memory import MemoryManager, Message, Session
+from opspilot.agent.memory import MemoryManager, ChatMessage, ConversationSession
 
 
 @pytest.fixture
@@ -48,12 +48,13 @@ def test_add_message(memory_manager):
     """Test adding messages to a session."""
     memory_manager.create_session("Test")
 
-    msg = memory_manager.add_message("user", "Hello!")
-    assert msg.role == "user"
-    assert msg.content == "Hello!"
+    msg_id = memory_manager.add_message("user", "Hello!")
+    assert msg_id is not None
     assert len(memory_manager.current_session.messages) == 1
+    assert memory_manager.current_session.messages[0].role == "user"
+    assert memory_manager.current_session.messages[0].content == "Hello!"
 
-    msg2 = memory_manager.add_message("assistant", "Hi there!")
+    msg2_id = memory_manager.add_message("assistant", "Hi there!")
     assert len(memory_manager.current_session.messages) == 2
 
 
@@ -178,8 +179,9 @@ def test_get_session_stats_no_session(memory_manager):
     """Test getting stats when no session is active."""
     stats = memory_manager.get_session_stats()
 
-    assert stats["active"] is False
-    assert stats["message_count"] == 0
+    assert stats["total_sessions"] == 0
+    assert stats["total_messages"] == 0
+    assert stats["current_session_id"] is None
 
 
 def test_get_session_stats_with_session(memory_manager):
@@ -191,19 +193,21 @@ def test_get_session_stats_with_session(memory_manager):
 
     stats = memory_manager.get_session_stats()
 
-    assert stats["active"] is True
-    assert stats["message_count"] == 3
-    assert stats["user_messages"] == 2
-    assert stats["assistant_messages"] == 1
-    assert stats["title"] == "Stats Test"
+    assert stats["total_sessions"] == 1
+    assert stats["total_messages"] == 3
+    assert stats["current_session_id"] is not None
+    assert "storage_dir" in stats
 
 
 def test_message_to_dict():
-    """Test converting Message to dictionary."""
+    """Test converting ChatMessage to dictionary."""
     import time
+    import uuid
+
     now = time.time()
 
-    msg = Message(
+    msg = ChatMessage(
+        id=str(uuid.uuid4()),
         role="user",
         content="Test",
         timestamp=now,
@@ -216,19 +220,24 @@ def test_message_to_dict():
 
 
 def test_message_from_dict():
-    """Test creating Message from dictionary."""
+    """Test creating ChatMessage from dictionary."""
     import time
+    import uuid
+
     now = time.time()
+    msg_id = str(uuid.uuid4())
 
     data = {
+        "id": msg_id,
         "role": "assistant",
         "content": "Response",
         "timestamp": now,
         "tool_calls": None,
         "tool_call_id": None,
+        "metadata": None,
     }
 
-    msg = Message.from_dict(data)
+    msg = ChatMessage.from_dict(data)
     assert msg.role == "assistant"
     assert msg.content == "Response"
     assert msg.timestamp == now

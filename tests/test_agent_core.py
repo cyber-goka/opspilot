@@ -81,21 +81,25 @@ def test_get_available_tools_plan_mode():
     async def build_tool(**kwargs):
         return "Build result"
 
-    agent.register_tool(Tool(
-        name="plan_tool",
-        description="Plan mode tool",
-        parameters={"type": "object"},
-        function=plan_tool,
-        requires_build_mode=False,
-    ))
+    agent.register_tool(
+        Tool(
+            name="plan_tool",
+            description="Plan mode tool",
+            parameters={"type": "object"},
+            function=plan_tool,
+            requires_build_mode=False,
+        )
+    )
 
-    agent.register_tool(Tool(
-        name="build_tool",
-        description="Build mode tool",
-        parameters={"type": "object"},
-        function=build_tool,
-        requires_build_mode=True,
-    ))
+    agent.register_tool(
+        Tool(
+            name="build_tool",
+            description="Build mode tool",
+            parameters={"type": "object"},
+            function=build_tool,
+            requires_build_mode=True,
+        )
+    )
 
     # In Plan mode, only plan_tool should be available
     agent.switch_mode(AgentMode.PLAN)
@@ -116,21 +120,25 @@ def test_get_available_tools_build_mode():
     async def build_tool(**kwargs):
         return "Build result"
 
-    agent.register_tool(Tool(
-        name="plan_tool",
-        description="Plan mode tool",
-        parameters={"type": "object"},
-        function=plan_tool,
-        requires_build_mode=False,
-    ))
+    agent.register_tool(
+        Tool(
+            name="plan_tool",
+            description="Plan mode tool",
+            parameters={"type": "object"},
+            function=plan_tool,
+            requires_build_mode=False,
+        )
+    )
 
-    agent.register_tool(Tool(
-        name="build_tool",
-        description="Build mode tool",
-        parameters={"type": "object"},
-        function=build_tool,
-        requires_build_mode=True,
-    ))
+    agent.register_tool(
+        Tool(
+            name="build_tool",
+            description="Build mode tool",
+            parameters={"type": "object"},
+            function=build_tool,
+            requires_build_mode=True,
+        )
+    )
 
     # In Build mode, both tools should be available
     agent.switch_mode(AgentMode.BUILD)
