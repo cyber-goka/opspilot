@@ -43,11 +43,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2025-11-29
 
 ### Added
-- Initial release
-- Basic CLI functionality
-- Agent Think-Act loop
-- Session management
-- Configuration system
+- **Full Textual TUI**: Split-screen interface with chat history and terminal output
+- **AI Agent Core**: Think-Act loop with Plan/Build dual-mode operation
+- **Multi-provider Support**: OpenAI, Anthropic, Zhipu AI, OpenRouter integration via LiteLLM
+- **File Operations Tool**: Secure file reading, writing, and directory listing
+- **System Tool**: Safe command execution with dangerous command detection
+- **Session Management**: Save, load, export conversation history (JSON, Markdown, TXT)
+- **Configuration CLI**: Interactive settings management with multiple providers
+- **Usage Tracking**: Token usage and cost monitoring
+- **Type Safety**: Comprehensive type annotations (mypy compliant)
+- **Test Suite**: 39+ tests with pytest and pytest-asyncio
+- **CI/CD Workflows**: Automated testing, linting, and PyPI releases
+- **PyPI Package**: Published to https://pypi.org/project/opspilot/
+
+### Security
+- Dangerous command detection with confirmation dialogs
+- Restricted path protection (prevents access to /etc, /sys, /proc, etc.)
+- Sandboxed subprocess execution with timeouts
+- File operation safety checks and automatic backups
 
 [Unreleased]: https://github.com/cyber-goka/opspilot/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/cyber-goka/opspilot/releases/tag/v0.1.0
