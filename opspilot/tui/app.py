@@ -4,6 +4,8 @@ OpsPilot TUI Application
 Full-featured Textual TUI with split-screen interface.
 """
 
+from typing import Any, Dict, Union
+
 # Check if Textual is available
 try:
     from textual.app import App, ComposeResult
@@ -34,28 +36,28 @@ try:
     from opspilot.agent.tools.files import file_tool
     from opspilot.config import config_manager
 except ImportError:
-    # Fallback for development
-    class AgentMode:
+    # Fallback for development - type: ignore comments for mock classes
+    class AgentMode:  # type: ignore[no-redef]
         PLAN = "plan"
         BUILD = "build"
 
-    class AgentCore:
-        def __init__(self):
+    class AgentCore:  # type: ignore[no-redef]
+        def __init__(self) -> None:
             self.mode = AgentMode.PLAN
-            self.usage_stats = {
+            self.usage_stats: Dict[str, Any] = {
                 "total_tokens": 0,
                 "total_cost": 0.0,
                 "requests_count": 0,
                 "current_context_tokens": 0,
             }
 
-        def switch_mode(self, mode):
+        def switch_mode(self, mode: Any) -> None:
             self.mode = mode
 
-        def register_tool(self, tool):
+        def register_tool(self, tool: Any) -> None:
             pass
 
-        async def process(self, message):
+        async def process(self, message: str) -> str:
             # Simulate some usage
             self.usage_stats["total_tokens"] += len(message.split()) * 10
             self.usage_stats["total_cost"] += 0.001
@@ -63,16 +65,16 @@ except ImportError:
             self.usage_stats["current_context_tokens"] = len(message.split()) * 5
             return f"Mock response to: {message}"
 
-        def get_usage_stats(self):
+        def get_usage_stats(self) -> Dict[str, Any]:
             return self.usage_stats.copy()
 
-    class memory_manager:
+    class memory_manager:  # type: ignore[no-redef]
         @staticmethod
-        def create_session(title):
+        def create_session(title: str) -> str:
             return "session_id"
 
         @staticmethod
-        def add_message(role, content):
+        def add_message(role: str, content: str) -> Any:
             class MockMessage:
                 role = role
                 content = content
@@ -81,30 +83,30 @@ except ImportError:
             return MockMessage()
 
         @staticmethod
-        def get_messages():
+        def get_messages() -> list[Any]:
             return []
 
         @staticmethod
-        def list_sessions():
+        def list_sessions() -> list[Any]:
             return []
 
         @staticmethod
-        def delete_session(session_id):
+        def delete_session(session_id: str) -> None:
             pass
 
         @staticmethod
-        def load_session(session_id):
+        def load_session(session_id: str) -> bool:
             return True
 
-    class system_tool:
+    class system_tool:  # type: ignore[no-redef]
         confirmation_callback = None
 
-    class file_tool:
+    class file_tool:  # type: ignore[no-redef]
         pass
 
-    class config_manager:
+    class config_manager:  # type: ignore[no-redef]
         @staticmethod
-        def load_config():
+        def load_config() -> Any:
             class MockConfig:
                 auth = type(
                     "Auth",
@@ -122,15 +124,15 @@ except ImportError:
             return MockConfig()
 
         @staticmethod
-        def save_config(config):
+        def save_config(config: Any) -> None:
             pass
 
         @staticmethod
-        def is_subscription_mode():
+        def is_subscription_mode() -> bool:
             return False
 
         @staticmethod
-        def get_model_for_mode(mode):
+        def get_model_for_mode(mode: str) -> str:
             return "mock-model"
 
 
@@ -229,7 +231,7 @@ if TEXTUAL_AVAILABLE:
             Binding("f1", "show_help", "Help", show=True),
         ]
 
-        def __init__(self):
+        def __init__(self) -> None:
             super().__init__()
             self.agent = AgentCore()
             self.mode = AgentMode.PLAN
@@ -239,7 +241,7 @@ if TEXTUAL_AVAILABLE:
             # Set confirmation callback for dangerous commands
             system_tool.confirmation_callback = self._show_confirmation_dialog
 
-        def _setup_agent_tools(self):
+        def _setup_agent_tools(self) -> None:
             """Setup agent tools."""
             # Register file tools
             self.agent.register_tool(
@@ -542,16 +544,16 @@ if TEXTUAL_AVAILABLE:
                 )
             )
 
-        def action_quit(self) -> None:
+        async def action_quit(self) -> None:
             """Quit the application."""
             self.exit()
 
 else:
     # Fallback when Textual is not available
-    class ConfirmationDialog:
+    class ConfirmationDialog:  # type: ignore[no-redef]
         """Confirmation dialog for dangerous commands."""
 
-        def __init__(self, command: str, keyword: str):
+        def __init__(self, command: str, keyword: str) -> None:
             self.command = command
             self.keyword = keyword
             self.confirmed = False
@@ -569,12 +571,12 @@ else:
 class SimpleTUI:
     """Simple CLI-based TUI fallback."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.agent = AgentCore()
         self.mode = AgentMode.PLAN
         self._setup_agent_tools()
 
-    def _setup_agent_tools(self):
+    def _setup_agent_tools(self) -> None:
         """Setup agent tools."""
         # Register file tools
         self.agent.register_tool(
@@ -616,7 +618,7 @@ class SimpleTUI:
             }
         )
 
-    def run(self):
+    def run(self) -> None:
         """Run the simple CLI interface."""
         print("🤖 OpsPilot CLI Mode")
         print(
@@ -673,7 +675,7 @@ class SimpleTUI:
             except Exception as e:
                 print(f"❌ Error: {str(e)}")
 
-    def _show_detailed_stats(self):
+    def _show_detailed_stats(self) -> None:
         """Show detailed usage statistics."""
         usage = self.agent.get_usage_stats()
         print("\n📊 Usage Statistics")
@@ -687,7 +689,7 @@ class SimpleTUI:
         print()
 
 
-def create_app():
+def create_app() -> Union["OpsPilotTUI", SimpleTUI]:
     """Create and return the OpsPilot application."""
     if TEXTUAL_AVAILABLE:
         return OpsPilotTUI()
