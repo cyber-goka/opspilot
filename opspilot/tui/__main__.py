@@ -44,22 +44,6 @@ def load_or_create_config_file() -> dict[str, Any]:
 def cli() -> None:
     """Interact with large language models using your terminal."""
 
-def _launch_app(prompt: tuple[str, ...], model: str, inline: bool) -> None:
-    """Common function to launch the OpsPilot TUI."""
-    prompt = prompt or ("",)
-    joined_prompt = " ".join(prompt)
-    create_db_if_not_exists()
-    file_config = load_or_create_config_file()
-    cli_config = {}
-    if model:
-        cli_config["default_model"] = model
-    if "theme" not in file_config:
-        file_config["theme"] = "nebula"
-
-    launch_config: dict[str, Any] = {**file_config, **cli_config}
-    app = OpsPilot(LaunchConfig(**launch_config), startup_prompt=joined_prompt)
-    app.run(inline=inline)
-
 @cli.command()
 @click.argument("prompt", nargs=-1, type=str, required=False)
 @click.option(
@@ -77,28 +61,17 @@ def _launch_app(prompt: tuple[str, ...], model: str, inline: bool) -> None:
     default=False,
 )
 def default(prompt: tuple[str, ...], model: str, inline: bool) -> None:
-    """Launch OpsPilot TUI (default command)."""
-    _launch_app(prompt, model, inline)
+    prompt = prompt or ("",)
+    joined_prompt = " ".join(prompt)
+    create_db_if_not_exists()
+    file_config = load_or_create_config_file()
+    cli_config = {}
+    if model:
+        cli_config["default_model"] = model
 
-@cli.command()
-@click.argument("prompt", nargs=-1, type=str, required=False)
-@click.option(
-    "-m",
-    "--model",
-    type=str,
-    default="",
-    help="The model to use for the chat",
-)
-@click.option(
-    "-i",
-    "--inline",
-    is_flag=True,
-    help="Run in inline mode, without launching full TUI.",
-    default=False,
-)
-def start(prompt: tuple[str, ...], model: str, inline: bool) -> None:
-    """Start OpsPilot TUI."""
-    _launch_app(prompt, model, inline)
+    launch_config: dict[str, Any] = {**file_config, **cli_config}
+    app = OpsPilot(LaunchConfig(**launch_config), startup_prompt=joined_prompt)
+    app.run(inline=inline)
 
 @cli.command()
 def reset() -> None:

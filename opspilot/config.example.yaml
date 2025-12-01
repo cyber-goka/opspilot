@@ -5,7 +5,7 @@
 auth:
   # Choose your AI provider: openai, zhipu, anthropic, or openrouter
   # OpenRouter gives access to 100+ models from various providers
-  provider: zhipu
+  provider: openai
 
   # Your API key for the selected provider
   # For OpenRouter, get your key from: https://openrouter.ai/keys
@@ -15,14 +15,14 @@ auth:
 models:
   models:
     openai:
-      plan: gpt-4
-      build: gpt-3.5-turbo
+      plan: gpt-4o
+      build: gpt-4o-mini
     zhipu:
-      plan: glm-4-plus
-      build: glm-4-flash
+      plan: openrouter/z-ai/glm-4.6
+      build: openrouter/z-ai/glm-4.6
     anthropic:
-      plan: claude-3-sonnet-20240229
-      build: claude-3-haiku-20240307
+      plan: claude-sonnet-4-5
+      build: claude-opus-4-1
 
 # Application settings
 max_tokens: 4000

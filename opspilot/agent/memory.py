@@ -429,6 +429,12 @@ class MemoryManager:
         with open(session_file, "w", encoding="utf-8") as f:
             json.dump(session.to_dict(), f, indent=2)
 
+    def reset_database(self) -> None:
+        """Delete all session files."""
+        for session_file in self.storage_dir.glob("*.json"):
+            session_file.unlink()
+        self.current_session = None
+
     def get_session_stats(self) -> Dict[str, Any]:
         """Get statistics about sessions."""
         sessions = self.list_sessions()

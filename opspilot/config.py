@@ -20,7 +20,7 @@ class AuthConfig:
 
         # Provider selection
         self.provider = kwargs.get(
-            "provider", "zhipu"
+            "provider", "openai"
         )  # openai, zhipu, anthropic, openrouter
 
         # Model selection
@@ -34,15 +34,15 @@ class ModelConfig:
         # Available models for each provider
         # OpenRouter provides access to many models from different providers
         self.models = {
-            "openai": {"plan": "gpt-4", "build": "gpt-3.5-turbo"},
-            "zhipu": {"plan": "glm-4-plus", "build": "glm-4-flash"},
+            "openai": {"plan": "gpt-4o", "build": "gpt-4o-mini"},
+            "zhipu": {"plan": "openrouter/z-ai/glm-4.6", "build": "openrouter/z-ai/glm-4.6"},
             "anthropic": {
-                "plan": "claude-3-sonnet-20240229",
-                "build": "claude-3-haiku-20240307",
+                "plan": "claude-sonnet-4-5",
+                "build": "claude-opus-4-1",
             },
             "openrouter": {
                 "plan": "openai/gpt-4o",  # GPT-4 Optimized via OpenRouter
-                "build": "anthropic/claude-3-haiku",  # Fast Claude model via OpenRouter
+                "build": "openai/gpt-4o-mini",  # Fast OpenAI model via OpenRouter
             },
         }
 
@@ -132,7 +132,7 @@ class ConfigManager:
 
         if not auth_data:
             # No auth found - create empty config to trigger setup
-            auth_data = {"api_key": None, "provider": "zhipu"}
+            auth_data = {"api_key": None, "provider": "openai"}
 
         return AppConfig(auth=AuthConfig(**auth_data))
 
