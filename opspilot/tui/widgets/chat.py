@@ -162,17 +162,22 @@ class Chat(Widget):
         model = self.chat_data.model
         log.debug(f"Creating streaming response with model {model.name!r}")
 
-        # Show thinking animation
-        status = self.query_one(ResponseStatus)
-        status.set_agent_responding()
-        status.styles.display = "block"
+        # Show thinking animation (must be done in main thread)
+        def show_thinking():
+            status = self.query_one(ResponseStatus)
+            status.set_agent_responding()
+            status.styles.display = "block"
+
+        self.app.call_from_thread(show_thinking)
 
         try:
             response = await self.opspilot.agent.process(
                 self.chat_data.messages[-1].message["content"], selected_model=model
             )
         except Exception as exception:
-            self.app.notify(
+            # Notify must be done in main thread
+            self.app.call_from_thread(
+                self.app.notify,
                 f"{exception}",
                 title="Error",
                 severity="error",

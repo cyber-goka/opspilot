@@ -98,7 +98,7 @@ def get_builtin_anthropic_models() -> list[OpsPilotChatModel]:
         ),
         OpsPilotChatModel(
             id="opspilot-claude-opus-4-5",
-            name="claude-opus-4-5",
+            name="claude-opus-4-5-20251101",
             display_name="Claude Opus 4.5",
             provider="Anthropic",
             product="Claude 4",
@@ -132,14 +132,6 @@ def get_builtin_google_models() -> list[OpsPilotChatModel]:
             provider="Google",
             product="Gemini",
             description="Fast with improved tool use.",
-        ),
-        OpsPilotChatModel(
-            id="opspilot-gemini-1.5-pro",
-            name="gemini/gemini-1.5-pro",
-            display_name="Gemini 1.5 Pro",
-            provider="Google",
-            product="Gemini",
-            description="Long context up to 2M tokens.",
         ),
     ]
 
