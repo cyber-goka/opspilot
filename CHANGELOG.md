@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+## [0.2.1] - 2025-12-02
+
+### Fixed
+- **Critical**: Fixed LookupError causing all models to crash with `active_app` context variable error
+  - Root cause: UI updates were being called directly from worker threads
+  - Solution: Used `app.call_from_thread()` to ensure all UI updates happen in main thread
+  - Affected all models: Claude, GPT, Gemini, DeepSeek
+- **Model Configuration**: Updated Claude Opus 4.5 model name to correct version `claude-opus-4-5-20251101`
+- **Cleanup**: Removed deprecated Gemini 1.5 Pro model from configuration
+
+### Technical Details
+- Modified `chat.py` to wrap status updates and notifications in `call_from_thread()`
+- Fixed issue where thinking animation and error notifications triggered context variable errors
+- Ensures proper thread safety for all Textual widget operations
+
 ## [0.2.0] - 2025-12-02
 
 ### Added
@@ -136,7 +151,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sandboxed subprocess execution with timeouts
 - File operation safety checks and automatic backups
 
-[Unreleased]: https://github.com/cyber-goka/opspilot/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/cyber-goka/opspilot/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/cyber-goka/opspilot/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/cyber-goka/opspilot/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/cyber-goka/opspilot/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/cyber-goka/opspilot/compare/v0.1.0...v0.1.1
