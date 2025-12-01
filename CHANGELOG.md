@@ -9,6 +9,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+## [0.2.0] - 2025-12-02
+
+### Added
+- **API Key Management System**: Comprehensive multi-provider API key management
+  - Secure storage with 0600 file permissions in `~/.config/opspilot/api_keys.json`
+  - Support for 5 providers: OpenAI, Anthropic, Google, DeepSeek, OpenRouter
+  - Password-masked input fields in options modal
+  - Auto-save on change functionality
+  - Environment variable fallback support
+  - Clickable links to get API keys from providers
+- **Thinking Animation**: Visual feedback while waiting for LLM responses
+  - Positioned between chat messages and input for better UX
+  - "✨ Agent is thinking..." indicator with loading animation
+- **Auto-scroll Feature**: Automatically scroll to latest message after agent responses
+- **Complete TUI Implementation**: Full-featured terminal user interface
+  - New screens: Home, Chat, Help, Chat Details, Rename Chat
+  - New widgets: ChatList, Chatbox, PromptInput, ChatOptions, ChatHeader
+  - Database integration for chat persistence (SQLite with aiosqlite)
+  - Theme support with custom color system
+  - SCSS styling with responsive layout
+  - Usage statistics display (tokens, context, cost)
+- **Updated AI Models to 2025 Versions**:
+  - OpenAI: GPT-4o, GPT-4o Mini, o1 Preview, o1 Mini
+  - Anthropic: Claude Sonnet 4.5, Opus 4.5, Opus 4.1
+  - Google: Gemini 2.5 Pro/Flash, Gemini 1.5 Pro
+  - DeepSeek: DeepSeek V3, DeepSeek Reasoner
+  - Zhipu: GLM-4.6 via OpenRouter
+
+### Changed
+- Refactored TUI architecture into modular screens and widgets
+- Updated model naming to follow LiteLLM conventions
+- Improved options modal to be scrollable for future extensibility
+- Enhanced chat header to display real-time usage statistics
+
+### Fixed
+- **API Key Loading**: Fixed LaunchConfig to properly load API keys from file on initialization
+- **RuntimeWarning**: Added proper async cleanup handler for LiteLLM clients on app close
+- **Linting Issues**: Removed all unused imports and variables
+  - Fixed unused `completion_tokens` variable in agent/core.py
+  - Removed unused imports across 5 files (app.py, chat_list.py, chat_options.py, chatbox.py)
+- **Test Failures**: Updated 3 tests to match new model configuration
+  - All 39 tests now passing
+- **Code Formatting**: Applied Black formatting to entire codebase (47 files)
+
+### Technical Improvements
+- Integrated LaunchConfig with AgentCore for API key access
+- Implemented clickable URLs in TUI with `action_open_link()`
+- Added proper async cleanup for LiteLLM async clients
+- Updated test suite to match new model names and configuration
+
 ## [0.1.2] - 2025-11-29
 
 ### Fixed
@@ -86,7 +136,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sandboxed subprocess execution with timeouts
 - File operation safety checks and automatic backups
 
-[Unreleased]: https://github.com/cyber-goka/opspilot/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/cyber-goka/opspilot/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/cyber-goka/opspilot/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/cyber-goka/opspilot/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/cyber-goka/opspilot/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/cyber-goka/opspilot/releases/tag/v0.1.0
