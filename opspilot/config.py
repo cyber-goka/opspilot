@@ -35,7 +35,10 @@ class ModelConfig:
         # OpenRouter provides access to many models from different providers
         self.models = {
             "openai": {"plan": "gpt-4o", "build": "gpt-4o-mini"},
-            "zhipu": {"plan": "openrouter/z-ai/glm-4.6", "build": "openrouter/z-ai/glm-4.6"},
+            "zhipu": {
+                "plan": "openrouter/z-ai/glm-4.6",
+                "build": "openrouter/z-ai/glm-4.6",
+            },
             "anthropic": {
                 "plan": "claude-sonnet-4-5",
                 "build": "claude-opus-4-1",

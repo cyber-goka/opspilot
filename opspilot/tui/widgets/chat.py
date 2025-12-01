@@ -169,8 +169,7 @@ class Chat(Widget):
 
         try:
             response = await self.opspilot.agent.process(
-                self.chat_data.messages[-1].message["content"],
-                selected_model=model
+                self.chat_data.messages[-1].message["content"], selected_model=model
             )
         except Exception as exception:
             self.app.notify(
@@ -241,7 +240,7 @@ class Chat(Widget):
         header.update_usage_stats(
             total_tokens=usage_stats["total_tokens"],
             context_tokens=usage_stats["current_context_tokens"],
-            total_cost=usage_stats["total_cost"]
+            total_cost=usage_stats["total_cost"],
         )
 
         # Auto-scroll to show the latest message
@@ -324,7 +323,7 @@ class Chat(Widget):
         chat_header.update_usage_stats(
             total_tokens=usage_stats["total_tokens"],
             context_tokens=usage_stats["current_context_tokens"],
-            total_cost=usage_stats["total_cost"]
+            total_cost=usage_stats["total_cost"],
         )
 
         # If the last message didn't receive a response, try again.

@@ -107,7 +107,6 @@ class AgentCore:
             if usage:
                 # Get token counts
                 prompt_tokens = getattr(usage, "prompt_tokens", 0)
-                completion_tokens = getattr(usage, "completion_tokens", 0)
                 total_tokens = getattr(usage, "total_tokens", 0)
 
                 # Update statistics
@@ -275,7 +274,9 @@ class AgentCore:
             await self.act(last_message.tool_calls)
 
             # Think again with tool results
-            response = await self.think("", selected_model=selected_model)  # Empty input to continue conversation
+            response = await self.think(
+                "", selected_model=selected_model
+            )  # Empty input to continue conversation
 
         return response
 

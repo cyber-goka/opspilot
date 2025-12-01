@@ -20,9 +20,7 @@ class PromptInput(TextArea):
     class CursorEscapingBottom(Message):
         pass
 
-    BINDINGS = [
-        Binding("ctrl+j", "submit_prompt", "Send message", key_display="↵")
-    ]
+    BINDINGS = [Binding("ctrl+j", "submit_prompt", "Send message", key_display="↵")]
 
     submit_ready = reactive(True)
 

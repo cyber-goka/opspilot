@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 from dataclasses import dataclass
-from typing import Self, cast
+from typing import cast
 
 import humanize
 from rich.console import RenderResult, Console, ConsoleOptions
@@ -11,7 +11,6 @@ from rich.padding import Padding
 from rich.text import Text
 from textual import events, log, on
 from textual.binding import Binding
-from textual.geometry import Region
 from textual.message import Message
 from textual.widgets import OptionList
 from textual.widgets.option_list import Option

@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING
 
 from textual.app import App
 from textual.binding import Binding
-from textual.reactive import Reactive, reactive
 from textual.signal import Signal
 
 from opspilot.tui.chats_manager import ChatsManager
@@ -132,6 +131,7 @@ class OpsPilot(App[None]):
     def action_open_link(self, url: str) -> None:
         """Open a URL in the default browser."""
         import webbrowser
+
         try:
             webbrowser.open(url)
         except Exception:
@@ -164,6 +164,7 @@ class OpsPilot(App[None]):
         try:
             # Close LiteLLM async clients to avoid RuntimeWarning
             from litellm import close_litellm_async_clients
+
             await close_litellm_async_clients()
         except Exception:
             pass  # Ignore cleanup errors

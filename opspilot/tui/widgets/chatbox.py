@@ -2,14 +2,12 @@ from __future__ import annotations
 import bisect
 from dataclasses import dataclass
 
-from rich.cells import cell_len
 from rich.console import RenderableType
 from rich.markdown import Markdown
 from rich.syntax import Syntax
 from textual import on
 from textual.binding import Binding
 from textual.css.query import NoMatches
-from textual.geometry import Size
 from textual.message import Message
 from textual.reactive import reactive
 from textual.widget import Widget

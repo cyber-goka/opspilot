@@ -19,8 +19,8 @@ def test_model_config():
     assert "openai" in models.models
     assert "zhipu" in models.models
     assert "anthropic" in models.models
-    assert models.models["zhipu"]["plan"] == "glm-4-plus"
-    assert models.models["zhipu"]["build"] == "glm-4-flash"
+    assert models.models["zhipu"]["plan"] == "openrouter/z-ai/glm-4.6"
+    assert models.models["zhipu"]["build"] == "openrouter/z-ai/glm-4.6"
 
 
 def test_app_config():
@@ -49,8 +49,8 @@ def test_get_model_for_mode():
     )
     plan_model = manager.get_model_for_mode("plan")
     build_model = manager.get_model_for_mode("build")
-    assert plan_model == "glm-4-plus"
-    assert build_model == "glm-4-flash"
+    assert plan_model == "openrouter/z-ai/glm-4.6"
+    assert build_model == "openrouter/z-ai/glm-4.6"
 
 
 def test_openrouter_support():
@@ -63,7 +63,7 @@ def test_openrouter_support():
     plan_model = manager.get_model_for_mode("plan")
     build_model = manager.get_model_for_mode("build")
     assert plan_model == "openai/gpt-4o"
-    assert build_model == "anthropic/claude-3-haiku"
+    assert build_model == "openai/gpt-4o-mini"
 
     # Test litellm config for OpenRouter
     litellm_config = manager.get_litellm_config()

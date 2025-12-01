@@ -82,7 +82,9 @@ class ChatHeader(Widget):
         model_static.update(self.model_static_content())
         title_static.update(self.title_static_content())
 
-    def update_usage_stats(self, total_tokens: int, context_tokens: int, total_cost: float):
+    def update_usage_stats(
+        self, total_tokens: int, context_tokens: int, total_cost: float
+    ):
         """Update usage statistics display."""
         self.total_tokens = total_tokens
         self.context_tokens = context_tokens

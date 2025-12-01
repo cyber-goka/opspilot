@@ -9,12 +9,10 @@ from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Vertical, VerticalScroll
 from textual.screen import ModalScreen
-from textual.widgets import Footer, RadioSet, RadioButton, Static, Input, Label
+from textual.widgets import Footer, RadioSet, RadioButton, Input, Label
 
 from opspilot.tui.config import OpsPilotChatModel
-from opspilot.tui.locations import config_file, theme_directory
 from opspilot.tui.runtime_config import RuntimeConfig
-from opspilot.tui.database.database import sqlite_file_name
 from opspilot.tui.api_keys_manager import save_api_keys
 
 if TYPE_CHECKING:
@@ -86,10 +84,16 @@ class OptionsModal(ModalScreen[RuntimeConfig]):
                     )
 
             with Vertical(id="api-keys-section"):
-                yield Label("[b]API Keys[/b] [dim](optional - falls back to env vars)[/]")
+                yield Label(
+                    "[b]API Keys[/b] [dim](optional - falls back to env vars)[/]"
+                )
                 yield Label("[dim]Get keys at:[/]")
-                yield Label("  • [@click='app.open_link(\"https://platform.openai.com/api-keys\")'][u]OpenAI[/][/] | [@click='app.open_link(\"https://console.anthropic.com/settings/keys\")'][u]Anthropic[/][/] | [@click='app.open_link(\"https://aistudio.google.com/app/apikey\")'][u]Google[/][/]")
-                yield Label("  • [@click='app.open_link(\"https://platform.deepseek.com/api_keys\")'][u]DeepSeek[/][/] | [@click='app.open_link(\"https://openrouter.ai/keys\")'][u]OpenRouter[/][/]")
+                yield Label(
+                    "  • [@click='app.open_link(\"https://platform.openai.com/api-keys\")'][u]OpenAI[/][/] | [@click='app.open_link(\"https://console.anthropic.com/settings/keys\")'][u]Anthropic[/][/] | [@click='app.open_link(\"https://aistudio.google.com/app/apikey\")'][u]Google[/][/]"
+                )
+                yield Label(
+                    "  • [@click='app.open_link(\"https://platform.deepseek.com/api_keys\")'][u]DeepSeek[/][/] | [@click='app.open_link(\"https://openrouter.ai/keys\")'][u]OpenRouter[/][/]"
+                )
                 yield Label("")
 
                 # Get existing API keys
@@ -101,7 +105,7 @@ class OptionsModal(ModalScreen[RuntimeConfig]):
                     value=api_keys.get("OpenAI", ""),
                     password=True,
                     id="openai-api-key",
-                    classes="api-key-input"
+                    classes="api-key-input",
                 )
 
                 yield Label("[dim]Anthropic[/]", classes="api-key-label")
@@ -110,7 +114,7 @@ class OptionsModal(ModalScreen[RuntimeConfig]):
                     value=api_keys.get("Anthropic", ""),
                     password=True,
                     id="anthropic-api-key",
-                    classes="api-key-input"
+                    classes="api-key-input",
                 )
 
                 yield Label("[dim]Google[/]", classes="api-key-label")
@@ -119,7 +123,7 @@ class OptionsModal(ModalScreen[RuntimeConfig]):
                     value=api_keys.get("Google", ""),
                     password=True,
                     id="google-api-key",
-                    classes="api-key-input"
+                    classes="api-key-input",
                 )
 
                 yield Label("[dim]DeepSeek[/]", classes="api-key-label")
@@ -128,7 +132,7 @@ class OptionsModal(ModalScreen[RuntimeConfig]):
                     value=api_keys.get("DeepSeek", ""),
                     password=True,
                     id="deepseek-api-key",
-                    classes="api-key-input"
+                    classes="api-key-input",
                 )
 
                 yield Label("[dim]OpenRouter[/]", classes="api-key-label")
@@ -137,7 +141,7 @@ class OptionsModal(ModalScreen[RuntimeConfig]):
                     value=api_keys.get("OpenRouter", ""),
                     password=True,
                     id="openrouter-api-key",
-                    classes="api-key-input"
+                    classes="api-key-input",
                 )
 
         yield Footer()
@@ -164,9 +168,7 @@ class OptionsModal(ModalScreen[RuntimeConfig]):
         self.apply_overridden_subtitles(selected_model_rs)
         self.refresh()
 
-    def apply_overridden_subtitles(
-        self, selected_model_rs: RadioSet
-    ) -> None:
+    def apply_overridden_subtitles(self, selected_model_rs: RadioSet) -> None:
         if (
             self.opspilot.launch_config.default_model
             != self.opspilot.runtime_config.selected_model.id
@@ -208,6 +210,7 @@ class OptionsModal(ModalScreen[RuntimeConfig]):
                 save_api_keys(api_keys)
                 # Reload the launch config to pick up the new keys
                 from opspilot.tui.api_keys_manager import load_api_keys
+
                 self.opspilot.launch_config = self.opspilot.launch_config.model_copy(
                     update={"api_keys": load_api_keys()}
                 )

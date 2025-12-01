@@ -21,10 +21,12 @@ from opspilot.tui.locations import config_file
 
 console = Console()
 
+
 def create_db_if_not_exists() -> None:
     if not sqlite_file_name.exists():
         click.echo(f"Creating database at {sqlite_file_name!r}")
         asyncio.run(create_database())
+
 
 def load_or_create_config_file() -> dict[str, Any]:
     config = config_file()
@@ -40,9 +42,11 @@ def load_or_create_config_file() -> dict[str, Any]:
 
     return file_config
 
+
 @click.group(cls=DefaultGroup, default="default", default_if_no_args=True)
 def cli() -> None:
     """Interact with large language models using your terminal."""
+
 
 @cli.command()
 @click.argument("prompt", nargs=-1, type=str, required=False)
@@ -73,6 +77,7 @@ def default(prompt: tuple[str, ...], model: str, inline: bool) -> None:
     app = OpsPilot(LaunchConfig(**launch_config), startup_prompt=joined_prompt)
     app.run(inline=inline)
 
+
 @cli.command()
 def reset() -> None:
     """
@@ -87,14 +92,16 @@ def reset() -> None:
     console.print(
         Padding(
             Text.from_markup(
-                dedent(f"""\
+                dedent(
+                    f"""\
 [u b red]Warning![/]
 
 [b red]This will delete all messages and chats.[/]
 
 You may wish to create a backup of \
 "[bold blue u]{str(sqlite_file_name.resolve().absolute())}[/]" before continuing.
-            """)
+            """
+                )
             ),
             pad=(1, 2),
         )
@@ -103,6 +110,7 @@ You may wish to create a backup of \
         sqlite_file_name.unlink(missing_ok=True)
         asyncio.run(create_database())
         console.print(f"♻️  Database reset @ {sqlite_file_name}")
+
 
 @cli.command("import")
 @click.argument(
@@ -120,6 +128,7 @@ def import_file_to_db(file: pathlib.Path) -> None:
     """
     asyncio.run(import_chatgpt_data(file=file))
     console.print(f"[green]ChatGPT data imported from {str(file)!r}")
+
 
 if __name__ == "__main__":
     cli()

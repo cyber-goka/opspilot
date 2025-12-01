@@ -222,6 +222,7 @@ class LaunchConfig(BaseModel):
         # If api_keys not provided, load from file
         if "api_keys" not in data or not data["api_keys"]:
             from opspilot.tui.api_keys_manager import load_api_keys
+
             data["api_keys"] = load_api_keys()
         super().__init__(**data)
 
